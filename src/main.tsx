@@ -5,8 +5,9 @@ import App from './App'
 class CustomReactFormElement extends HTMLElement {
   connectedCallback() {
     const root = createRoot(this)
-    root.render(<App />)
+    root.render(<App element={this} />)
   }
 }
 
 customElements.define("custom-react-form", CustomReactFormElement)
+

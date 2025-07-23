@@ -10,10 +10,10 @@
 </head>
 
 <body>
+  <custom-react-form></custom-react-form>
   <script>
-    const form = document.createElement('custom-react-form');
-    form.addEventListener('custom-react-submit', (data) => console.log(data));
-    document.body.appendChild(form);
+    const form = document.querySelector('custom-react-form');
+    form.addEventListener('custom-react-submit', () => console.log("oi"));
   </script>
 </body>
 

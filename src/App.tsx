@@ -1,12 +1,11 @@
 import './App.css'
+import AccommodationForm from './components/AccommodationForm'
 
-function App() {
+function App({ element }: { element: HTMLElement }) {
 
   return (
     <>
-      <div>
-        Custom Form
-      </div>
+      <AccommodationForm element={element} />
     </>
   )
 }

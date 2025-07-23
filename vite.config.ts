@@ -9,7 +9,7 @@ export default defineConfig({
     tailwindcss()
   ],
   define: {
-    'process.env.NODE_ENV': JSON.stringify('production') // ✅ Corrige o erro no navegador
+    'process.env.NODE_ENV': JSON.stringify('production')
   },
   build: {
     lib: {
