@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
+import type { IFormData } from "../context/FormContext";
 
 const errorMsgs = {
   name: "Name is required, 4–64 chars.",
   email: "Email is required and must be valid (e.g. user@domain.com).",
   phone: "Phone number must contain only numbers, up to 9 digits."
-};
-
-const initialFormData = {
-  name: "",
-  email: "",
-  phone: ""
 };
 
 const initialError = {
@@ -24,19 +19,16 @@ const initialFormValidation = {
   phone: true
 };
 
-export const useStep2Form = (checkStepValidation: (valid: boolean) => void) => {
-  const [formData, setFormData] = useState(initialFormData);
+export const useStep2Form = (checkStepValidation: (valid: boolean) => void, updateFormData: (info: IFormData) => void, formData: IFormData) => {
   const [error, setError] = useState(initialError);
   const [formValidation, setFormValidation] = useState(initialFormValidation);
 
-  console.log("formData", formData)
-
-  const updateValidation = (field: keyof typeof formData, valid: boolean, message = "") => {
+  const updateValidation = (field: keyof typeof formData.owner, valid: boolean, message = "") => {
     setError((prev) => ({ ...prev, [field]: message }));
     setFormValidation((prev) => ({ ...prev, [field]: valid }));
   };
 
-  const validate = async (field: keyof typeof formData, value: string | File[]) => {
+  const validate = async (field: keyof typeof formData.owner, value: string | File[]) => {
     if (field === "name" && typeof value === "string") {
       if (!value || value.length < 4 || value.length > 64) {
         updateValidation(field, false, errorMsgs[field]);
@@ -64,12 +56,17 @@ export const useStep2Form = (checkStepValidation: (valid: boolean) => void) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    updateFormData({
+      ...formData, owner: {
+        ...formData.owner,
+        [name]: value,
+      },
+    });
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const name = e.target.name as keyof typeof formData;
-    validate(name, formData[name]);
+    const name = e.target.name as keyof typeof formData.owner;
+    validate(name, formData.owner[name]);
   };
   useEffect(() => {
     const allValid = Object.values(formValidation).every((v) => v);

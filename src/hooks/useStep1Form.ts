@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { IFormData } from "../context/FormContext";
 
 const typeOptions = ["apartment", "villa", "house"];
 
@@ -11,14 +12,6 @@ const errorMsgs = {
     quantity: "Maximum of 2 photos allowed.",
     dimension: "Photos must be 500x500px or smaller."
   }
-};
-
-const initialFormData = {
-  name: "",
-  address: "",
-  description: "",
-  type: "",
-  photos: [] as File[],
 };
 
 const initialError = {
@@ -37,15 +30,12 @@ const initialFormValidation = {
   photos: true,
 };
 
-export const useStep1Form = (checkStepValidation: (valid: boolean) => void) => {
-  const [formData, setFormData] = useState(initialFormData);
+export const useStep1Form = (checkStepValidation: (valid: boolean) => void, updateFormData: (info: IFormData) => void, formData: IFormData) => {
   const [error, setError] = useState(initialError);
   const [formValidation, setFormValidation] = useState(initialFormValidation);
   const [photosPreview, setPhotosPreview] = useState<string[]>([]);
 
-  console.log("formData", formData)
-
-  const updateValidation = (field: keyof typeof formData, valid: boolean, message = "") => {
+  const updateValidation = (field: keyof typeof formData.accommodation, valid: boolean, message = "") => {
     setError((prev) => ({ ...prev, [field]: message }));
     setFormValidation((prev) => ({ ...prev, [field]: valid }));
   };
@@ -55,7 +45,7 @@ export const useStep1Form = (checkStepValidation: (valid: boolean) => void) => {
     setPhotosPreview(previews);
   };
 
-  const validate = async (field: keyof typeof formData, value: string | File[]) => {
+  const validate = async (field: keyof typeof formData.accommodation, value: string | File[]) => {
     if (field === "name" && typeof value === "string") {
       if (!value || value.length < 4 || value.length > 128 || /\d/.test(value)) {
         updateValidation(field, false, errorMsgs[field]);
@@ -114,24 +104,40 @@ export const useStep1Form = (checkStepValidation: (valid: boolean) => void) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    updateFormData({
+      ...formData, accommodation: {
+        ...formData.accommodation,
+        [name]: value,
+      },
+    });
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const name = e.target.name as keyof typeof formData;
-    validate(name, formData[name]);
+    const name = e.target.name as keyof typeof formData.accommodation;
+    if (!formData.accommodation) return;
+    validate(name, formData.accommodation[name]);
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
-    const updated = [...formData.photos, ...files];
-    setFormData((prev) => ({ ...prev, photos: updated }));
+    const updated = [...formData.accommodation.photos, ...files];
+    updateFormData({
+      ...formData, accommodation: {
+        ...formData.accommodation,
+        photos: updated,
+      },
+    });
     validate("photos", updated);
   };
 
   const handleDeleteImg = (index: number) => {
-    const updated = formData.photos.filter((_, i) => i !== index);
-    setFormData((prev) => ({ ...prev, photos: updated }));
+    const updated = formData.accommodation.photos.filter((_, i) => i !== index);
+    updateFormData({
+      ...formData, accommodation: {
+        ...formData.accommodation,
+        photos: updated,
+      },
+    });
     validate("photos", updated);
   };
 

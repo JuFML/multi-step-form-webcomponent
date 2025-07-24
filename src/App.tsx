@@ -1,11 +1,14 @@
 import './App.css'
 import AccommodationForm from './components/AccommodationForm'
+import { FormProvider } from './context/FormContext'
 
 function App({ element }: { element: HTMLElement }) {
 
   return (
     <>
-      <AccommodationForm element={element} />
+      <FormProvider>
+        <AccommodationForm element={element} />
+      </FormProvider>
     </>
   )
 }
