@@ -5,17 +5,18 @@ interface InputFieldProps {
   error?: string;
   onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
   onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
-  type?: 'input' | 'textarea' | 'select';
+  inputType?: 'input' | 'textarea' | 'select';
   options?: string[];
+  type?: string
 }
 
-const Input = ({ label, name, value, error, onChange, onBlur, type = 'input', options }: InputFieldProps) => {
+const Input = ({ label, name, value, error, onChange, onBlur, inputType = 'input', options, type = 'text' }: InputFieldProps) => {
 
   return (
     <div className="flex flex-col">
       <label className="mb-1 text-sm font-medium text-gray-700">{label}</label>
 
-      {type === 'textarea' ? (
+      {inputType === 'textarea' ? (
         <textarea
           className="rounded-lg border border-gray-300 px-4 py-2 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-green-300"
           name={name}
@@ -23,7 +24,7 @@ const Input = ({ label, name, value, error, onChange, onBlur, type = 'input', op
           onChange={onChange}
           onBlur={onBlur}
         />
-      ) : type === 'select' ? (
+      ) : inputType === 'select' ? (
         <select
           className="rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
           name={name}
@@ -40,8 +41,9 @@ const Input = ({ label, name, value, error, onChange, onBlur, type = 'input', op
         </select>
       ) : (
         <input
-          className="rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-300" type="text"
+          className="rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
           name={name}
+          type={type}
           value={value}
           onChange={onChange}
           onBlur={onBlur}

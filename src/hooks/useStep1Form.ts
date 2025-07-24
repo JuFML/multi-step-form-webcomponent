@@ -37,7 +37,7 @@ const initialFormValidation = {
   photos: true,
 };
 
-export const useStepForm = (checkStepValidation: (valid: boolean) => void) => {
+export const useStep1Form = (checkStepValidation: (valid: boolean) => void) => {
   const [formData, setFormData] = useState(initialFormData);
   const [error, setError] = useState(initialError);
   const [formValidation, setFormValidation] = useState(initialFormValidation);

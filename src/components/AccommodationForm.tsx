@@ -30,11 +30,11 @@ const AccommodationForm = ({ element }: { element: HTMLElement }) => {
 
     <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-2xl space-y-8">
       {step === 1 && <Step1Accommodation checkStepValidation={checkStepValidation} />}
-      {step === 2 && <Step2Owner />}
+      {step === 2 && <Step2Owner checkStepValidation={checkStepValidation} />}
       {step === 3 && <Step3Summary />}
 
       <button disabled={!stepsValidation[currentStep as keyof typeof stepsValidation]} onClick={handleclickBtn} className="w-full px-6 py-2 rounded-lg bg-orange-600 text-white font-semibold hover:bg-orange-700 transition disabled:bg-orange-200">
-        {step === 1 ? 'Next' : 'Submit'}
+        {step < 3 ? 'Next' : 'Submit'}
       </button>
     </div>
   )
