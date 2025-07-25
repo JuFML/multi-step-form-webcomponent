@@ -114,7 +114,7 @@ const AccommodationForm = ({ element }: { element: HTMLElement }) => {
     }
   }
   return (
-    <div className="w-full max-w-xl min-w-[320px] px-4 mx-auto mb-6">
+    <div className="w-full max-w-xl min-w-[320px] p-4 mx-auto mb-6">
 
       <StepProgress step={step} steps={steps} />
 
