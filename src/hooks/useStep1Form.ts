@@ -40,12 +40,7 @@ export const useStep1Form = (checkStepValidation: (valid: boolean) => void, upda
     setFormValidation((prev) => ({ ...prev, [field]: valid }));
   };
 
-  const generatePhotoPreviews = (files: File[]) => {
-    const previews = files.map(file => URL.createObjectURL(file));
-    setPhotosPreview(previews);
-  };
-
-  const validate = async (field: keyof typeof formData.accommodation, value: string | File[]) => {
+  const validate = async (field: keyof typeof formData.accommodation, value: string | File[] | string[]) => {
     if (field === "name" && typeof value === "string") {
       if (!value || value.length < 4 || value.length > 128 || /\d/.test(value)) {
         updateValidation(field, false, errorMsgs[field]);
@@ -53,6 +48,7 @@ export const useStep1Form = (checkStepValidation: (valid: boolean) => void, upda
         updateValidation(field, true);
       }
     }
+
     if (field === "address" && typeof value === "string") {
       if (!value || value.length < 4 || value.length > 128) {
         updateValidation(field, false, errorMsgs[field]);
@@ -60,6 +56,7 @@ export const useStep1Form = (checkStepValidation: (valid: boolean) => void, upda
         updateValidation(field, true);
       }
     }
+
     if (field === "description" && typeof value === "string") {
       if (value && (value.length < 128 || value.length > 2048)) {
         updateValidation(field, false, errorMsgs[field]);
@@ -67,6 +64,7 @@ export const useStep1Form = (checkStepValidation: (valid: boolean) => void, upda
         updateValidation(field, true);
       }
     }
+
     if (field === "type" && typeof value === "string") {
       if (!typeOptions.includes(value)) {
         updateValidation(field, false, errorMsgs[field]);
@@ -74,15 +72,17 @@ export const useStep1Form = (checkStepValidation: (valid: boolean) => void, upda
         updateValidation(field, true);
       }
     }
+
     if (field === "photos" && Array.isArray(value)) {
       if (value.length > 2) {
         updateValidation(field, false, errorMsgs.photos.quantity);
-        generatePhotoPreviews(value);
         return;
-      }
-      if (value.length > 0) {
+      } else if (value.length > 0) {
         const dimensionChecks = await Promise.all(
           value.map((file) => new Promise<boolean>((resolve) => {
+            if (!(file instanceof File)) {
+              return resolve(false);
+            }
             const img = new Image();
             img.onload = () => resolve(img.width <= 500 && img.height <= 500);
             img.onerror = () => resolve(false);
@@ -93,12 +93,8 @@ export const useStep1Form = (checkStepValidation: (valid: boolean) => void, upda
           updateValidation(field, false, errorMsgs.photos.dimension);
           return;
         }
-        updateValidation(field, true);
-        generatePhotoPreviews(value);
-      } else {
-        updateValidation(field, true);
-        generatePhotoPreviews(value);
       }
+      updateValidation(field, true);
     }
   };
 
@@ -121,24 +117,37 @@ export const useStep1Form = (checkStepValidation: (valid: boolean) => void, upda
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
     const updated = [...formData.accommodation.photos, ...files];
+    const newPreviews = files.map(file => URL.createObjectURL(file));
+    const allPreviews = [
+      ...(formData.accommodation.photosPreviews || []),
+      ...newPreviews,
+    ];
+
+    setPhotosPreview(allPreviews);
     updateFormData({
       ...formData, accommodation: {
         ...formData.accommodation,
         photos: updated,
+        photosPreviews: allPreviews,
       },
     });
+    if (e.target) e.target.value = "";
     validate("photos", updated);
   };
 
   const handleDeleteImg = (index: number) => {
-    const updated = formData.accommodation.photos.filter((_, i) => i !== index);
+    const photosUpdated = formData.accommodation.photos.filter((_, i) => i !== index);
+    const previewsUpdated = formData.accommodation.photosPreviews.filter((_, i) => i !== index);
+
+    setPhotosPreview(previewsUpdated)
     updateFormData({
       ...formData, accommodation: {
         ...formData.accommodation,
-        photos: updated,
+        photos: photosUpdated,
+        photosPreviews: previewsUpdated
       },
     });
-    validate("photos", updated);
+    validate("photos", photosUpdated);
   };
 
   useEffect(() => {
