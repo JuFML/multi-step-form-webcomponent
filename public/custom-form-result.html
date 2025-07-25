@@ -6,14 +6,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>React Form - Web Component</title>
-  <script type="module" src="/src/main.tsx"></script>
+  <script type="module" src="./custom-form.bundle.js"></script>
+  <link rel="stylesheet" href="./multi-step-accommodation-form.css">
 </head>
 
 <body>
   <custom-react-form></custom-react-form>
   <script>
     const form = document.querySelector('custom-react-form');
-    form.addEventListener('custom-react-submit', () => console.log("oi"));
+    form.addEventListener('custom-react-submit', (event) => console.log(event.detail));
   </script>
 </body>
 
