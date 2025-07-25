@@ -23,6 +23,58 @@ const steps: Step[] = [
   { id: 3, label: "Summary" },
 ];
 
+export interface IFormData {
+  accommodation: {
+    name: string;
+    address: string;
+    description: string;
+    type: string;
+    photos: File[];
+    photosPreviews: string[];
+  };
+  owner: {
+    name: string;
+    email: string;
+    phone: string;
+  }
+};
+
+export type FieldRequirementsMsgs = {
+  accommodation: {
+    name: string;
+    address: string;
+    description: string;
+    type: string;
+    photos: {
+      quantity: string;
+      dimension: string;
+    };
+  };
+  owner: {
+    name: string;
+    email: string;
+    phone: string;
+  }
+};
+
+const fieldRequirementsMsgs: FieldRequirementsMsgs = {
+  accommodation: {
+    name: "Required. Must be 4–128 characters, no numbers allowed.",
+    address: "Required. Must be 4–128 characters.",
+    description: "Optional. Must be 128–2048 characters.",
+    type: "Required. Must be one of: apartment, villa, or house.",
+    photos: {
+      quantity: "Optional. Maximum of 2 photos allowed.",
+      dimension: "Each photos must be 500x500px or smaller."
+    }
+  },
+  owner: {
+    name: "Required. Must be 4–64 characters.",
+    email: "Required. Must be a valid email address.",
+    phone: "Optional. Must be numbers only and up to 9 digits."
+  }
+}
+
 const AccommodationForm = ({ element }: { element: HTMLElement }) => {
   const [step, setStep] = useState(1)
   const [stepsValidation, setStepsValidation] = useState(initialStepsValidation)
@@ -67,8 +119,8 @@ const AccommodationForm = ({ element }: { element: HTMLElement }) => {
       <StepProgress step={step} steps={steps} />
 
       <div className=" min-w-[320px] px-4 mx-auto p-6 bg-white shadow-lg rounded-2xl space-y-8">
-        {step === 1 && <Step1Accommodation title={steps[0].label} checkStepValidation={checkStepValidation} updateFormData={updateFormData} formData={formData} />}
-        {step === 2 && <Step2Owner title={steps[1].label} checkStepValidation={checkStepValidation} updateFormData={updateFormData} formData={formData} />}
+        {step === 1 && <Step1Accommodation title={steps[0].label} checkStepValidation={checkStepValidation} updateFormData={updateFormData} formData={formData} requirementsMsgs={fieldRequirementsMsgs} />}
+        {step === 2 && <Step2Owner title={steps[1].label} checkStepValidation={checkStepValidation} updateFormData={updateFormData} formData={formData} requirementsMsgs={fieldRequirementsMsgs} />}
         {step === 3 && <Step3Summary stepsTitles={[steps[0].label, steps[1].label]} formData={formData} />}
         {submissionFeedback && <SubmissionFeedback submissionFeedback={submissionFeedback} />}
 

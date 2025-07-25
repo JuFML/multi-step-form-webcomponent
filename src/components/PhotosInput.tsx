@@ -8,9 +8,17 @@ interface InputFieldProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClick: (index: number) => void;
   photosPreview: string[]
+  requirementsMsgs: RequirementsMsgs
 }
 
-const PhotosInput = ({ label, inputImgLabel, name, error, onChange, onClick, photosPreview }: InputFieldProps) => {
+export type RequirementsMsgs = {
+  quantity: string;
+  dimension: string;
+};
+
+
+
+const PhotosInput = ({ label, inputImgLabel, name, error, onChange, onClick, photosPreview, requirementsMsgs }: InputFieldProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const uploadBoxClass = "relative w-32 h-32 rounded-lg border border-gray-300 bg-white"
   const labelClass = "flex justify-center items-center cursor-pointer px-4 py-2 text-gray-500 w-full h-full absolute text-center"
@@ -42,7 +50,14 @@ const PhotosInput = ({ label, inputImgLabel, name, error, onChange, onClick, pho
         </div>
       </div>
 
-      {error && <p className="text-red-500">{error}</p>}
+
+
+      {error ?
+        <p className="text-red-500">{error}</p> :
+        <p className="text-gray-500 text-sm">
+          {requirementsMsgs.quantity}<br />
+          {requirementsMsgs.dimension}
+        </p>}
     </div>
   );
 };

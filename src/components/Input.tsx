@@ -1,3 +1,4 @@
+
 interface InputFieldProps {
   label: string;
   name: string;
@@ -7,12 +8,13 @@ interface InputFieldProps {
   onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
   inputType?: 'input' | 'textarea' | 'select';
   options?: string[];
-  type?: string
+  type?: string;
+  requirementsMsgs: string
 }
 
 
 
-const Input = ({ label, name, value, error, onChange, onBlur, inputType = 'input', options, type = 'text' }: InputFieldProps) => {
+const Input = ({ label, name, value, error, onChange, onBlur, requirementsMsgs, inputType = 'input', options, type = 'text' }: InputFieldProps) => {
   const baseInputClass = "rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
 
   return (
@@ -53,7 +55,9 @@ const Input = ({ label, name, value, error, onChange, onBlur, inputType = 'input
         />
       )}
 
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+      {error ?
+        <p className="text-red-500 text-sm mt-1">{error}</p> :
+        <p className="text-gray-500 text-sm mt-1">{requirementsMsgs}</p>}
     </div>
   );
 };
