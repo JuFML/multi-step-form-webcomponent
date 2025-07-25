@@ -2,7 +2,8 @@ import { createContext, useState, type ReactNode } from "react";
 
 interface FormContextData {
   formData: IFormData;
-  updateFormData: (info: IFormData) => void
+  updateFormData: (info: IFormData) => void;
+  resetForm: () => void
 }
 
 export interface IFormData {
@@ -48,16 +49,18 @@ export const FormProvider = ({ children }: FormProviderProps) => {
   const [formData, setFormData] = useState<IFormData>(initialFormData)
   console.log("formData!!!!!", formData)
 
-
-
   const updateFormData = (info: IFormData) => {
     console.log(info)
     setFormData(info)
   }
 
+  const resetForm = () => {
+    setFormData(initialFormData)
+  }
+
 
   return (
-    <FormContext.Provider value={{ updateFormData, formData }}>
+    <FormContext.Provider value={{ updateFormData, formData, resetForm }}>
       {children}
     </FormContext.Provider>
   )
