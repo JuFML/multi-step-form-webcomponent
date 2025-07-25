@@ -12,6 +12,8 @@ interface InputFieldProps {
 
 const PhotosInput = ({ label, inputImgLabel, name, error, onChange, onClick, photosPreview }: InputFieldProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const uploadBoxClass = "relative w-32 h-32 rounded-lg border border-gray-300 bg-white"
+  const labelClass = "flex justify-center items-center cursor-pointer px-4 py-2 text-gray-500 w-full h-full absolute text-center"
 
   return (
     <div className="flex flex-col">
@@ -25,10 +27,8 @@ const PhotosInput = ({ label, inputImgLabel, name, error, onChange, onClick, pho
             className="w-32 h-32 object-cover rounded border"
             onClick={() => onClick(i)}
           />))}
-        <div className="relative w-32 h-32 rounded-lg border border-gray-300 bg-white file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-          <label
-            className="flex justify-center items-center cursor-pointer px-4 py-2 text-gray-500 w-full h-full absolute text-center"
-          >
+        <div className={uploadBoxClass}>
+          <label className={labelClass}>
             <p>{inputImgLabel}</p>
             <input
               ref={fileInputRef}
