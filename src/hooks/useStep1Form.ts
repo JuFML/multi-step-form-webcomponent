@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { IFormData } from "../context/FormContext";
 
-const typeOptions = ["apartment", "villa", "house"];
+export const typeOptions = ["apartment", "villa", "house"];
 
 const errorMsgs = {
   name: "Name is required, 4–128 chars, no numbers.",

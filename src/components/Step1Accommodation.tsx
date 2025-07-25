@@ -1,9 +1,7 @@
 import type { IFormData } from "../context/FormContext";
-import { useStep1Form } from "../hooks/useStep1Form";
+import { typeOptions, useStep1Form } from "../hooks/useStep1Form";
 import Input from "./Input";
 import PhotosInput from "./PhotosInput";
-
-const typeOptions: string[] = ["apartment", "villa", "house"]
 interface Step1AccommodationProps {
   checkStepValidation: (isStepValid: boolean) => void;
   updateFormData: (info: IFormData) => void;
