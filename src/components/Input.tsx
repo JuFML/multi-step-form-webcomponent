@@ -10,7 +10,10 @@ interface InputFieldProps {
   type?: string
 }
 
+
+
 const Input = ({ label, name, value, error, onChange, onBlur, inputType = 'input', options, type = 'text' }: InputFieldProps) => {
+  const baseInputClass = "rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
 
   return (
     <div className="flex flex-col">
@@ -18,7 +21,7 @@ const Input = ({ label, name, value, error, onChange, onBlur, inputType = 'input
 
       {inputType === 'textarea' ? (
         <textarea
-          className="rounded-lg border border-gray-300 px-4 py-2 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-green-300"
+          className={`${baseInputClass} min-h-[100px]`}
           name={name}
           value={value}
           onChange={onChange}
@@ -26,7 +29,7 @@ const Input = ({ label, name, value, error, onChange, onBlur, inputType = 'input
         />
       ) : inputType === 'select' ? (
         <select
-          className="rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+          className={baseInputClass}
           name={name}
           value={value}
           onChange={onChange}
@@ -41,7 +44,7 @@ const Input = ({ label, name, value, error, onChange, onBlur, inputType = 'input
         </select>
       ) : (
         <input
-          className="rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-300"
+          className={baseInputClass}
           name={name}
           type={type}
           value={value}
