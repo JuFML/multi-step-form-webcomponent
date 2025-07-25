@@ -7,10 +7,11 @@ const typeOptions: string[] = ["apartment", "villa", "house"]
 interface Step1AccommodationProps {
   checkStepValidation: (isStepValid: boolean) => void;
   updateFormData: (info: IFormData) => void;
-  formData: IFormData
+  formData: IFormData;
+  title: string
 }
 
-const Step1Accommodation = ({ checkStepValidation, updateFormData, formData }: Step1AccommodationProps) => {
+const Step1Accommodation = ({ checkStepValidation, updateFormData, formData, title }: Step1AccommodationProps) => {
   const {
     error,
     photosPreview,
@@ -21,8 +22,8 @@ const Step1Accommodation = ({ checkStepValidation, updateFormData, formData }: S
   } = useStep1Form(checkStepValidation, updateFormData, formData)
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl">Accommodation</h1>
+    <div className="space-y-5 min-h-[80vh]">
+      <h1 className="text-3xl">{title}</h1>
       <Input inputType="input" label="Name" name="name" onChange={handleChange} onBlur={handleBlur} value={formData.accommodation.name} error={error.name} />
       <Input inputType="input" label="Address" name="address" onChange={handleChange} onBlur={handleBlur} value={formData.accommodation.address} error={error.address} />
       <Input inputType="textarea" label="Description" name="description" onChange={handleChange} onBlur={handleBlur} value={formData.accommodation.description} error={error.description} />

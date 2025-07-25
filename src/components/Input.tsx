@@ -14,7 +14,7 @@ const Input = ({ label, name, value, error, onChange, onBlur, inputType = 'input
 
   return (
     <div className="flex flex-col">
-      <label className="mb-1 text-sm font-medium text-gray-700">{label}</label>
+      <label className="mb-1 text-base font-medium text-gray-700">{label}</label>
 
       {inputType === 'textarea' ? (
         <textarea
