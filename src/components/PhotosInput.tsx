@@ -29,18 +29,13 @@ const PhotosInput = ({ label, inputImgLabel, name, error, onChange, onClick, pho
           <label
             className="flex justify-center items-center cursor-pointer px-4 py-2 text-gray-500 w-full h-full absolute text-center"
           >
-            {inputImgLabel}
+            <p>{inputImgLabel}</p>
             <input
               ref={fileInputRef}
               type="file"
               accept="image/*"
               name={name}
-              onChange={(e) => {
-                onChange(e)
-                if (fileInputRef && fileInputRef.current) {
-                  fileInputRef.current.value = "";
-                }
-              }}
+              onChange={(e) => onChange(e)}
               className="w-full h-full hidden"
             />
           </label>

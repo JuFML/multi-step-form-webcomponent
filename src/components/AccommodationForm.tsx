@@ -22,7 +22,7 @@ const AccommodationForm = ({ element }: { element: HTMLElement }) => {
 
   const handleclickBtn = () => {
     if (step === 3) {
-      const customEvent = new CustomEvent('custom-react-submit', { detail: "haha" })
+      const customEvent = new CustomEvent('custom-react-submit', { detail: formData })
       element.dispatchEvent(customEvent)
     } else {
       setStep(step + 1)
@@ -33,7 +33,7 @@ const AccommodationForm = ({ element }: { element: HTMLElement }) => {
     <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-2xl space-y-8">
       {step === 1 && <Step1Accommodation checkStepValidation={checkStepValidation} updateFormData={updateFormData} formData={formData} />}
       {step === 2 && <Step2Owner checkStepValidation={checkStepValidation} updateFormData={updateFormData} formData={formData} />}
-      {step === 3 && <Step3Summary />}
+      {step === 3 && <Step3Summary formData={formData} />}
 
       <button disabled={!stepsValidation[currentStep as keyof typeof stepsValidation]} onClick={handleclickBtn} className="w-full px-6 py-2 rounded-lg bg-orange-600 text-white font-semibold hover:bg-orange-700 transition disabled:bg-orange-200">
         {step < 3 ? 'Next' : 'Submit'}

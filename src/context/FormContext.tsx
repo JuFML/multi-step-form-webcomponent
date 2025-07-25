@@ -2,7 +2,7 @@ import { createContext, useState, type ReactNode } from "react";
 
 interface FormContextData {
   formData: IFormData;
-  updateFormData: (info: IFormData) => void;
+  updateFormData: (info: IFormData) => void
 }
 
 export interface IFormData {
@@ -12,6 +12,7 @@ export interface IFormData {
     description: string;
     type: string;
     photos: File[];
+    photosPreviews: string[];
   };
   owner: {
     name: string;
@@ -27,6 +28,7 @@ const initialFormData = {
     description: "",
     type: "",
     photos: [],
+    photosPreviews: []
   },
   owner: {
     name: "",
@@ -45,6 +47,8 @@ export const FormContext = createContext({} as FormContextData)
 export const FormProvider = ({ children }: FormProviderProps) => {
   const [formData, setFormData] = useState<IFormData>(initialFormData)
   console.log("formData!!!!!", formData)
+
+
 
   const updateFormData = (info: IFormData) => {
     console.log(info)
